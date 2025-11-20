@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Мой Блог</title>
+    <link rel="stylesheet" href="main.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+
+    <header>
+        <div class="header-content">
+            <h1>Personal Blog</h1>
+            <div id="auth-container">
+                <!-- Кнопки меняются через JS -->
+                <button class="btn" id="login-btn-toggle">Войти как Админ</button>
+                <button class="btn admin-only" id="logout-btn">Выйти</button>
+            </div>
+        </div>
+
+        <!-- Форма входа (скрыта по умолчанию) -->
+        <form id="login-form" class="auth-form hidden">
+            <input type="email" id="email" placeholder="Email" required>
+            <input type="password" id="password" placeholder="Пароль" required>
+            <button type="submit" class="btn-submit">Войти</button>
+        </form>
+    </header>
+
+    <main>
+        <!-- Панель админа (скрыта для обычных людей) -->
+        <section class="admin-panel admin-only">
+            <h2>Новая публикация</h2>
+            <form id="create-post-form">
+                <input type="text" id="new-post-title" placeholder="Заголовок" required>
+                <textarea id="new-post-body" placeholder="Текст поста..." rows="5" required></textarea>
+                <button type="submit" class="btn-submit">Опубликовать</button>
+            </form>
+        </section>
+
+        <!-- Сетка постов -->
+        <section id="posts-grid" class="posts-grid">
+            <!-- Сюда JS вставит посты -->
+            <p style="text-align:center; width:100%">Загрузка...</p>
+        </section>
+    </main>
+
+    <script src="main.js"></script>
+</body>
+</html>

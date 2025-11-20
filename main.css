@@ -1,0 +1,237 @@
+/* =========================================
+   1. БАЗОВЫЕ НАСТРОЙКИ (RESET)
+   ========================================= */
+
+/* Убираем стандартные отступы у всех элементов
+   и говорим браузеру включать padding в ширину блока */
+   * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* Настройки тела страницы */
+body {
+    font-family: 'Arial', sans-serif; /* Шрифт */
+    background-color: #f4f4f9;        /* Светло-серый фон */
+    color: #333;                      /* Темно-серый текст (не чисто черный) */
+    line-height: 1.6;                 /* Межстрочный интервал для удобства чтения */
+}
+
+/* Ссылки по умолчанию без подчеркивания */
+a {
+    text-decoration: none;
+}
+
+/* =========================================
+   2. ШАПКА (HEADER)
+   ========================================= */
+
+header {
+    background-color: #fff;
+    padding: 1rem 2rem; /* Отступ: сверху/снизу 1rem, слева/справа 2rem */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Легкая тень внизу */
+    margin-bottom: 2rem; /* Отступ от шапки до контента */
+    position: relative; /* Чтобы позиционировать форму входа относительно шапки */
+}
+
+/* Контейнер внутри хедера для выравнивания */
+.header-content {
+    display: flex;            /* Включаем флексбокс */
+    justify-content: space-between; /* Раскидываем элементы по краям */
+    align-items: center;      /* Центрируем по вертикали */
+    max-width: 1000px;        /* Ограничиваем ширину */
+    margin: 0 auto;           /* Центрируем сам контейнер на странице */
+}
+
+/* =========================================
+   3. КНОПКИ
+   ========================================= */
+
+/* Обычная кнопка (темная) */
+.btn {
+    display: inline-block;
+    padding: 8px 16px;
+    background-color: #333;
+    color: #fff;
+    border: none;
+    border-radius: 4px; /* Скругленные углы */
+    cursor: pointer;    /* Рука при наведении */
+    transition: background 0.2s; /* Плавная анимация цвета */
+}
+
+.btn:hover {
+    background-color: #555; /* Цвет при наведении */
+}
+
+/* Кнопка отправки формы (синяя) */
+.btn-submit {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 4px;
+    font-weight: bold;
+}
+
+.btn-submit:hover {
+    background-color: #0056b3;
+}
+
+/* =========================================
+   4. ФОРМЫ И ИНПУТЫ
+   ========================================= */
+
+/* Общие стили для полей ввода */
+input, 
+textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+    margin-bottom: 10px; /* Отступ снизу между полями */
+}
+
+/* Выпадающая форма входа */
+.auth-form {
+    position: absolute; /* Висит поверх контента */
+    top: 70px;          /* Отступ от верха */
+    right: 20px;        /* Прижимаем к правому краю */
+    width: 300px;
+    background-color: white;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    z-index: 100;       /* Чтобы была выше всего остального */
+    
+    display: flex;      /* Чтобы выстроить инпуты в колонку */
+    flex-direction: column;
+    gap: 10px;          /* Расстояние между элементами */
+}
+
+/* Панель добавления поста (Админка) */
+.admin-panel {
+    max-width: 800px;
+    margin: 0 auto 2rem auto;
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.admin-panel h2 {
+    margin-bottom: 15px;
+}
+
+/* =========================================
+   5. СЛУЖЕБНЫЕ КЛАССЫ
+   ========================================= */
+
+/* Класс для скрытия элементов */
+.hidden {
+    display: none !important;
+}
+
+/* Класс для элементов, доступных только админу */
+/* По умолчанию скрыты, JS покажет их при входе */
+.admin-only {
+    display: none;
+}
+
+/* =========================================
+   6. СЕТКА ПОСТОВ (GRID LAYOUT)
+   ========================================= */
+
+.posts-grid {
+    display: grid;
+    /* Магия адаптивности: колонки минимум 300px, но растягиваются */
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;          /* Расстояние между карточками */
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 20px;    /* Отступы по бокам на мобилках */
+}
+
+/* =========================================
+   7. КАРТОЧКА ПОСТА
+   ========================================= */
+
+.post-card {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    
+    /* Делаем карточку флекс-контейнером, чтобы прижать кнопку вниз */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    
+    transition: transform 0.2s; /* Для анимации при наведении */
+}
+
+.post-card:hover {
+    transform: translateY(-5px); /* Карточка чуть всплывает */
+}
+
+.post-title {
+    font-size: 1.4rem;
+    margin-bottom: 10px;
+    color: #222;
+}
+
+.post-excerpt {
+    color: #666;
+    margin-bottom: 15px;
+    /* Обрезаем текст (3 строки), если он слишком длинный */
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.read-link {
+    color: #007bff;
+    font-weight: bold;
+}
+
+.read-link:hover {
+    text-decoration: underline;
+}
+
+/* =========================================
+   8. СТРАНИЦА ОДНОГО ПОСТА (post.html)
+   ========================================= */
+
+.single-post-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 30px;
+    background-color: white;
+    border-radius: 8px;
+    min-height: 400px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+#detail-title {
+    font-size: 2rem;
+    margin-bottom: 10px;
+}
+
+.meta {
+    color: #999;
+    font-size: 0.9rem;
+    margin-bottom: 25px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+}
+
+#detail-body {
+    font-size: 1.1rem;
+    color: #333;
+    /* Важно: сохраняем пробелы и переносы строк из textarea */
+    white-space: pre-wrap; 
+}
