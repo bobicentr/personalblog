@@ -235,3 +235,26 @@ textarea {
     /* Важно: сохраняем пробелы и переносы строк из textarea */
     white-space: pre-wrap; 
 }
+
+/* Контейнер для кнопок внизу карточки */
+.post-actions {
+    margin-top: 15px;
+    display: flex;
+    justify-content: space-between; /* Разносит кнопки по краям */
+    align-items: center;
+}
+
+/* Красная кнопка удаления */
+.btn-delete {
+    background-color: #dc3545; /* Красный цвет */
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+
+.btn-delete:hover {
+    background-color: #a71d2a; /* Темно-красный при наведении */
+}

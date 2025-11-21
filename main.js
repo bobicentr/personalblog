@@ -13,7 +13,6 @@ async function fetchPosts() {
     const { data, error } = await sb
         .from('posts')
         .select('*')
-        .order('created_at', { ascending: false }); // Свежие сверху
 
     if (error) {
         postsGrid.innerHTML = '<p>Ошибка загрузки</p>';
@@ -30,18 +29,25 @@ function renderPosts(posts) {
         return;
     }
 
-    // Используем map и join для создания одной большой строки HTML (быстрее, чем +=)
     postsGrid.innerHTML = posts.map(post => `
         <article class="post-card">
             <div>
                 <h3 class="post-title">${escapeHtml(post.title)}</h3>
                 <p class="post-excerpt">${escapeHtml(post.body)}</p>
             </div>
-            <div style="margin-top:15px">
-                <a href="post.html?id=${post.id}" class="read-link">Читать полностью →</a>
+            
+            <div class="post-actions">
+                <a href="post.html?id=${post.id}" class="read-link">Читать →</a>
+                
+                <!-- КНОПКА УДАЛЕНИЯ (Скрыта для обычных людей) -->
+                <button class="btn-delete admin-only" data-id="${post.id}">Удалить</button>
             </div> 
         </article>
     `).join('');
+    
+    // ВАЖНО: После перерисовки постов нужно проверить, админ мы или нет, 
+    // чтобы показать кнопки удаления, если мы уже вошли.
+    checkAdminVisibility(); 
 }
 
 // Защита от XSS (чтобы html теги в тексте не ломали сайт)
@@ -120,5 +126,42 @@ createPostForm.addEventListener('submit', async (e) => {
     }
 });
 
+// Функция для проверки: если мы админ, показываем скрытые элементы
+async function checkAdminVisibility() {
+    const { data: { session } } = await sb.auth.getSession();
+    const adminElements = document.querySelectorAll('.admin-only');
+    
+    if (session) {
+        adminElements.forEach(el => el.style.display = 'inline-block'); // Или 'block'
+    } else {
+        adminElements.forEach(el => el.style.display = 'none');
+    }
+}
+
+// Слушаем клики внутри сетки постов
+postsGrid.addEventListener('click', async (e) => {
+    // Проверяем, содержит ли элемент, на который нажали, класс 'btn-delete'
+    if (e.target.classList.contains('btn-delete')) {
+        const postId = e.target.getAttribute('data-id');
+        
+        const confirmDelete = confirm('Вы точно хотите удалить этот пост?');
+        if (!confirmDelete) return;
+
+        // Удаляем из Supabase
+        const { error } = await sb
+            .from('posts')
+            .delete()
+            .eq('id', postId);
+
+        if (error) {
+            alert('Ошибка удаления: ' + error.message);
+        } else {
+            // Удаляем карточку визуально без перезагрузки страницы
+            // Находим ближайшего родителя (карточку) и удаляем его
+            e.target.closest('.post-card').remove();
+            alert('Пост удален!');
+        }
+    }
+});
 // Запуск при старте
 fetchPosts();
