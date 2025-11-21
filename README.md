@@ -1,6 +1,6 @@
 # 📝 Pure JS Blog Platform
 
-[![Live Demo](https://img.shields.io/badge/Live_Demo-View_Project-2ea44f?style=for-the-badge&logo=github)]([https://github.com/bobicentr/myblogsite])
+[![Live Demo](https://img.shields.io/badge/Live_Demo-View_Project-2ea44f?style=for-the-badge&logo=github)](https://bobicentr.github.io/personalblog/)
 
 A fully functional Single Page Application (SPA) blog built with **Vanilla JavaScript** and **Supabase**. No frontend frameworks (React/Vue) were used—only native DOM manipulation and modern JS features.
 
