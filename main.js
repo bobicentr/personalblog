@@ -2,13 +2,10 @@
 const SUPABASE_URL = 'https://vebqimlusmxpdlrmwrlz.supabase.co/';
 const SUPABASE_KEY = 'sb_publishable_IGZOx-plKDsDczkYjZbv4Q_YEbXuYfq';
 const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-
-// Элементы DOM
 const postsGrid = document.getElementById('posts-grid');
 const loginForm = document.getElementById('login-form');
 const createPostForm = document.getElementById('create-post-form');
 
-// 1. ЗАГРУЗКА ПОСТОВ
 async function fetchPosts() {
     const { data, error } = await sb
         .from('posts')
@@ -22,7 +19,6 @@ async function fetchPosts() {
     }
 }
 
-// 2. ОТРИСОВКА (Рендер)
 function renderPosts(posts) {
     if (!posts.length) {
         postsGrid.innerHTML = '<p>Постов пока нет.</p>';
@@ -44,13 +40,9 @@ function renderPosts(posts) {
             </div> 
         </article>
     `).join('');
-    
-    // ВАЖНО: После перерисовки постов нужно проверить, админ мы или нет, 
-    // чтобы показать кнопки удаления, если мы уже вошли.
     checkAdminVisibility(); 
 }
 
-// Защита от XSS (чтобы html теги в тексте не ломали сайт)
 function escapeHtml(text) {
     if (!text) return "";
     return text
@@ -60,26 +52,20 @@ function escapeHtml(text) {
         .replace(/"/g, "&quot;")
         .replace(/'/g, "&#039;");
 }
-
-// 3. АВТОРИЗАЦИЯ (Слушатель событий)
-// Этот код срабатывает сам при загрузке страницы и при входе/выходе
 sb.auth.onAuthStateChange((event, session) => {
     const adminElements = document.querySelectorAll('.admin-only');
     const loginBtn = document.getElementById('login-btn-toggle');
     
-    if (session) {
-        // Админ вошел
+    if (session) 
         adminElements.forEach(el => el.style.display = 'block');
         loginBtn.style.display = 'none';
-        loginForm.classList.add('hidden'); // Спрятать форму входа
+        loginForm.classList.add('hidden'); 
     } else {
-        // Гость
         adminElements.forEach(el => el.style.display = 'none');
         loginBtn.style.display = 'block';
     }
 });
 
-// Логика кнопок входа/выхода
 document.getElementById('login-btn-toggle').addEventListener('click', () => {
     loginForm.classList.toggle('hidden');
 });
@@ -88,7 +74,6 @@ document.getElementById('logout-btn').addEventListener('click', async () => {
     await sb.auth.signOut();
 });
 
-// Обработка формы входа
 loginForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     const email = document.getElementById('email').value;
@@ -99,14 +84,11 @@ loginForm.addEventListener('submit', async (e) => {
     else loginForm.reset();
 });
 
-// 4. СОЗДАНИЕ ПОСТА
 createPostForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     
     const title = document.getElementById('new-post-title').value;
     const body = document.getElementById('new-post-body').value;
-
-    // Проверка: авторизован ли?
     const { data: { user } } = await sb.auth.getUser();
     if (!user) {
         alert('Вы не авторизованы!');
@@ -121,33 +103,29 @@ createPostForm.addEventListener('submit', async (e) => {
         alert('Ошибка создания: ' + error.message);
     } else {
         createPostForm.reset();
-        fetchPosts(); // Перерисовать список постов
+        fetchPosts();
         alert('Пост опубликован!');
     }
 });
 
-// Функция для проверки: если мы админ, показываем скрытые элементы
 async function checkAdminVisibility() {
     const { data: { session } } = await sb.auth.getSession();
     const adminElements = document.querySelectorAll('.admin-only');
     
     if (session) {
-        adminElements.forEach(el => el.style.display = 'inline-block'); // Или 'block'
+        adminElements.forEach(el => el.style.display = 'inline-block'); 
     } else {
         adminElements.forEach(el => el.style.display = 'none');
     }
 }
 
-// Слушаем клики внутри сетки постов
 postsGrid.addEventListener('click', async (e) => {
-    // Проверяем, содержит ли элемент, на который нажали, класс 'btn-delete'
     if (e.target.classList.contains('btn-delete')) {
         const postId = e.target.getAttribute('data-id');
         
         const confirmDelete = confirm('Вы точно хотите удалить этот пост?');
         if (!confirmDelete) return;
 
-        // Удаляем из Supabase
         const { error } = await sb
             .from('posts')
             .delete()
@@ -156,12 +134,11 @@ postsGrid.addEventListener('click', async (e) => {
         if (error) {
             alert('Ошибка удаления: ' + error.message);
         } else {
-            // Удаляем карточку визуально без перезагрузки страницы
-            // Находим ближайшего родителя (карточку) и удаляем его
+
             e.target.closest('.post-card').remove();
             alert('Пост удален!');
         }
     }
 });
-// Запуск при старте
+
 fetchPosts();
