@@ -1,20 +1,42 @@
-# 📝 Pure JS Blog Platform
+# Personal Blog (Pure JS)
+Live Demo — [Ознакомиться](https://bobicentr.github.io/personalblog/)
 
-[![Live Demo](https://img.shields.io/badge/Live_Demo-View_Project-2ea44f?style=for-the-badge&logo=github)](https://bobicentr.github.io/personalblog/)
+# О проекте
+Это блог-платформа в формате SPA, написанная на чистом JavaScript без использования фреймворков. Делал её как упражнение, чтобы лучше понять, как работает архитектура веб-приложения без готовых абстракций.
+Основная идея — вручную реализовать работу с данными, авторизацию, роутинг и рендеринг интерфейса через DOM.
 
-A fully functional Single Page Application (SPA) blog built with **Vanilla JavaScript** and **Supabase**. No frontend frameworks (React/Vue) were used—only native DOM manipulation and modern JS features.
+# Технологический стек
+- HTML5 — структура страниц
+- CSS3 — стилизация
+- Vanilla JavaScript (ES6+) — вся логика приложения
+- Supabase — база данных
+- PostgreSQL — хранение записей
+- RLS Policies — защита данных на уровне базы
 
-### 🎯 The Goal
-To understand web application architecture "under the hood" without hiding behind abstractions. The main focus was on mastering asynchronous data flow, authentication logic, and secure API communication.
+# Как установить локально
 
-### 🛠 Tech Stack
-*   **Frontend:** HTML5, CSS3, Vanilla JavaScript (ES6+).
-*   **Backend-as-a-Service:** Supabase (PostgreSQL).
-*   **Security:** Row Level Security (RLS) Policies.
+1. Склонировать репозиторий
+```bash
+git clone https://github.com/bobicentr/personalblog.git
+cd personalblog
+```
 
-### 🔥 Key Features
-*   **Full CRUD:** Create, Read, and Delete posts dynamically.
-*   **Admin Panel:** Custom authentication system. Admin controls are hidden for regular visitors.
-*   **Security First:** API keys are exposed, but data is protected via strict RLS policies in the database.
-*   **Smart Rendering:** Dynamic DOM generation based on JSON data from the cloud.
-*   **Routing:** Navigation logic using URL query parameters (e.g., `?id=123`).
+2. Открыть проект через локальный сервер  
+(например через Live Server или любой другой способ)
+
+# Ключевые функции
+- SPA без фреймворков — вся логика на чистом JS
+- Полный CRUD для постов (создание, просмотр, удаление)
+- Админ-режим с отдельной логикой доступа
+- Скрытие админ-контролов для обычных посетителей
+- Динамический рендеринг DOM из данных базы
+- Работа с облачной БД через API
+- Защита данных через RLS политики
+- Простая клиентская навигация через query параметры (`?id=...`)
+
+# Что реализовано технически
+- Ручная работа с DOM без библиотек
+- Асинхронные запросы к базе
+- Логика авторизации без готовых UI решений
+- Клиентский роутинг через параметры URL
+- Разделение публичного и административного доступа
