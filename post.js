@@ -4,7 +4,6 @@ const SUPABASE_KEY = 'sb_publishable_IGZOx-plKDsDczkYjZbv4Q_YEbXuYfq';
 const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 async function loadSinglePost() {
-    // 1. Получаем ID из адресной строки (post.html?id=123)
     const params = new URLSearchParams(window.location.search);
     const postId = params.get('id');
 
@@ -17,8 +16,8 @@ async function loadSinglePost() {
     const { data, error } = await sb
         .from('posts')
         .select('*')
-        .eq('id', postId) // Фильтр: WHERE id = postId
-        .single(); // Нам нужен только один объект, а не массив
+        .eq('id', postId) 
+        .single(); 
 
     // 3. Отображаем
     if (error) {
@@ -27,8 +26,6 @@ async function loadSinglePost() {
     } else {
         document.getElementById('detail-title').innerText = data.title;
         document.getElementById('detail-date').innerText = new Date(data.created_at).toLocaleDateString();
-        // Для сохранения переносов строк используем white-space: pre-wrap в CSS
-        // или заменяем \n на <br>
         document.getElementById('detail-body').innerText = data.body;
     }
 }
