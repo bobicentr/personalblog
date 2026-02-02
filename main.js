@@ -56,7 +56,7 @@ sb.auth.onAuthStateChange((event, session) => {
     const adminElements = document.querySelectorAll('.admin-only');
     const loginBtn = document.getElementById('login-btn-toggle');
     
-    if (session) 
+    if (session) {
         adminElements.forEach(el => el.style.display = 'block');
         loginBtn.style.display = 'none';
         loginForm.classList.add('hidden'); 
