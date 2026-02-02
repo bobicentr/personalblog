@@ -1,4 +1,4 @@
-# Personal Blog (Pure JS)
+# Personal Blog
 Live Demo — [Ознакомиться](https://bobicentr.github.io/personalblog/)
 
 # О проекте
